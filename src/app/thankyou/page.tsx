@@ -17,26 +17,28 @@ const ThankYou: React.FC = () => {
 
     const router = useRouter();
     const searchParams = useSearchParams();
-    
-    // Extract booking details from search params and set state
-    useEffect(() => {
-        const items = JSON.parse(searchParams.get('items') || '[]');
-        const totalAmount = parseFloat(searchParams.get('totalAmount') || '0');
-        const name = searchParams.get('name') || '';
-        const address = searchParams.get('address') || '';
-        const paymentMethod = searchParams.get('paymentMethod') || '';
-        const date = new Date().toLocaleDateString();
-        const time = new Date().toLocaleTimeString();
 
-        setBookingDetails({
-            items,
-            totalAmount,
-            date,
-            time,
-            name,
-            address,
-            paymentMethod,
-        });
+    useEffect(() => {
+        // Check if searchParams is available before using it
+        if (searchParams) {
+            const items = JSON.parse(searchParams.get('items') || '[]');
+            const totalAmount = parseFloat(searchParams.get('totalAmount') || '0');
+            const name = searchParams.get('name') || '';
+            const address = searchParams.get('address') || '';
+            const paymentMethod = searchParams.get('paymentMethod') || '';
+            const date = new Date().toLocaleDateString();
+            const time = new Date().toLocaleTimeString();
+
+            setBookingDetails({
+                items,
+                totalAmount,
+                date,
+                time,
+                name,
+                address,
+                paymentMethod,
+            });
+        }
     }, [searchParams]);
 
     return (

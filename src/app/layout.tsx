@@ -4,6 +4,7 @@
 import Script from "next/script";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { Suspense } from "react";
 
 
 // export const metadata: Metadata = {
@@ -48,12 +49,14 @@ export default function RootLayout({
         <link href="assets/css/style.css" rel="stylesheet" />
       </head>
       <body>
-       <Provider store={store}>
-       {children}
-       </Provider>
-        
-        
-       
+        <Provider store={store}>
+          <Suspense fallback={<div>Loading...</div>}>
+            {children}
+          </Suspense>
+        </Provider>
+
+
+
         <Script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" />
         <Script src="assets/vendor/swiper/swiper-bundle.min.js" />
         <Script src="assets/js/main.js" />

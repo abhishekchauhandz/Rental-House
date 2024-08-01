@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from 'react-bootstrap';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../redux/cartSlice'; // Adjust path as necessary
 import { Property } from '../types'; // Adjust path as necessary
@@ -22,11 +22,13 @@ const Checkout: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Ensure that searchParams is accessed correctly and handle it in client-side only
-    const items = JSON.parse(searchParams.get('items') || '[]');
-    const amount = parseFloat(searchParams.get('totalAmount') || '0');
-    setCartItems(items);
-    setTotalAmount(amount);
+    // Use a check to ensure searchParams is available
+    if (searchParams) {
+      const items = JSON.parse(searchParams.get('items') || '[]');
+      const amount = parseFloat(searchParams.get('totalAmount') || '0');
+      setCartItems(items);
+      setTotalAmount(amount);
+    }
   }, [searchParams]);
 
   const handleSubmit = (e: React.FormEvent) => {
