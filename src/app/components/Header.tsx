@@ -1,7 +1,7 @@
 // src/app/components/Header.tsx
 'use client'
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -13,6 +13,11 @@ const Header: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart.items);
   const router = useRouter();
 
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const handleCartClick = () => {
     router.push('/cart');
   };
@@ -21,11 +26,11 @@ const Header: React.FC = () => {
     <header>
       <nav className='d-flex justify-content-around align-items-center'>
         <h1 className='headerHeading'>My Rental Platform</h1>
-        <Link href="/cart">
+        {isClient && <Link href="/cart">
           <Button onClick={handleCartClick}>
           <FaShoppingCart /> Cart ({cart.length})
           </Button>
-        </Link>
+        </Link>}
       </nav>
     </header>
   );

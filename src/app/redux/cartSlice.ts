@@ -8,7 +8,7 @@ interface CartState {
 
 // Initialize state from localStorage or default to an empty array
 const initialState: CartState = {
-  items: JSON.parse(localStorage.getItem('cartItems') || '[]'),
+  items: typeof Window !== "undefined" ? JSON.parse(localStorage.getItem('cartItems') || '[]') : [],
 };
 
 const cartSlice = createSlice({

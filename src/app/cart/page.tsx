@@ -1,18 +1,28 @@
-'use client'
+'use client';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../redux/store'; // Correct path to your store file
+import { RootState } from '../redux/store'; // Adjust the path as needed
 import { clearCart, removeFromCart } from '../redux/cartSlice';
 import { Button } from 'react-bootstrap';
-import { Property } from '../types'; // Adjust the path to your Property type
+import { Property } from '../types'; // Adjust the path as needed
 import { useRouter } from 'next/navigation';
 import { FaShoppingCart } from 'react-icons/fa';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const Cart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  // Use useEffect to set isClient to true after the component mounts
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Calculate the total amount based on cartItems
+  const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
 
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -38,8 +48,10 @@ const Cart: React.FC = () => {
     router.push(`/checkout?${query}`);
   };
 
-  // Calculate the total amount
-  const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
+  // Ensure we only render content after the component mounts
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="container mt-4">
@@ -55,7 +67,7 @@ const Cart: React.FC = () => {
           {cartItems.map((item: Property, index: number) => (
             <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
               <div className="d-flex align-items-center">
-                <img src={item.image} alt={item.title} width="100" className="mr-3"/>
+                <img src={item.image} alt={item.title} width="100" className="mr-3" />
                 <div>
                   <h2 className="h5">{item.title}</h2>
                   <p>${item.price}</p>
