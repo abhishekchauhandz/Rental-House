@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../redux/cartSlice'; // Adjust path as necessary
 import { Property } from '../types'; // Adjust path as necessary
@@ -16,11 +16,13 @@ const Checkout: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cartItems, setCartItems] = useState<Property[]>([]);
   const [totalAmount, setTotalAmount] = useState(0);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Ensure that searchParams is accessed correctly and handle it in client-side only
     const items = JSON.parse(searchParams.get('items') || '[]');
     const amount = parseFloat(searchParams.get('totalAmount') || '0');
     setCartItems(items);
@@ -63,13 +65,13 @@ const Checkout: React.FC = () => {
       {cartItems.length > 0 && (
         <div className="property-details mb-4">
           <div className='d-flex justify-content-evenly'>
-          {cartItems.map((item, index) => (
-            <div key={index} className="mb-3">
-              <h2>{item.title}</h2>
-              <p>Price: ${item.price}</p>
-              <img src={item.image} alt={item.title} width="100" />
-            </div>
-          ))}
+            {cartItems.map((item, index) => (
+              <div key={index} className="mb-3">
+                <h2>{item.title}</h2>
+                <p>Price: ${item.price}</p>
+                <img src={item.image} alt={item.title} width="100" />
+              </div>
+            ))}
           </div>
           <h3>Total Amount: ${totalAmount}</h3>
         </div>

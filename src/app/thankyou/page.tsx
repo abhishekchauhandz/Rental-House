@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -17,9 +17,9 @@ const ThankYou: React.FC = () => {
 
     const router = useRouter();
     const searchParams = useSearchParams();
-
+    
+    // Extract booking details from search params and set state
     useEffect(() => {
-        // Extract booking details from search params
         const items = JSON.parse(searchParams.get('items') || '[]');
         const totalAmount = parseFloat(searchParams.get('totalAmount') || '0');
         const name = searchParams.get('name') || '';
@@ -40,14 +40,12 @@ const ThankYou: React.FC = () => {
     }, [searchParams]);
 
     return (
-        <>
-           <div className='p-4'>
-           <Button onClick={() => router.push('/')} className="mb-3">Back to Home</Button>
+        <div className='p-4'>
+            <Button onClick={() => router.push('/')} className="mb-3">Back to Home</Button>
             <div className="container p-4 text-center">
                 <h1 className='headerHeading'>Thank You!</h1>
                 <div className='d-flex justify-content-evenly align-items-center'>
                     <div>
-
                         <p>Your property booking is confirmed.</p>
                         <h3>Booking Details:</h3>
                         <p>Date: {bookingDetails.date}</p>
@@ -67,12 +65,10 @@ const ThankYou: React.FC = () => {
                             ))}
                         </ul>
                     </div>
-
                 </div>
             </div>
             <h3 className='text-center'>Total Amount: ${bookingDetails.totalAmount}</h3>
-           </div>
-        </>
+        </div>
     );
 };
 
